@@ -85,6 +85,12 @@ class backProp:
     def get_biasTop(self):
         return self.biasTop
 
+    def get_hidden(self):
+        return self.hidden
+
+    def get_output(self):
+        return self.output
+
 def doit(epochs, showFrequency):
     backprop = backProp(2, 10, 2, 0.1)
     #print(backprop.get_weightBottoms())
@@ -109,7 +115,10 @@ def doit(epochs, showFrequency):
         print()
 
     print()
-    for i in backprop.biasBottom:
+    for i in backprop.get_biasBottom():
+        print(i)
+    print()
+    for i in backprop.get_biasTop():
         print(i)
 
 
