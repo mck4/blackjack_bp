@@ -117,6 +117,7 @@ def doit(epochs, showFrequency):
     print()
     for i in backprop.get_biasBottom():
         print(i)
+	
     print()
     for i in backprop.get_biasTop():
         print(i)
