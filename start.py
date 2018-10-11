@@ -14,6 +14,7 @@
 # 1) VCS>Commit...
 # 2) VCS>Git>Push...
 
+#TEST
 
 # For starting the thing
 def do_it():
