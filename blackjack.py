@@ -1,4 +1,4 @@
-import start
+#import start
 # This file is empty!
 class Card:
     name = None
@@ -6,7 +6,7 @@ class Card:
     suit = None
     isDrawn = False
 
-    def __init___(self, suit, name):
+    def __init__(self, suit, name):
         self.name = name
         self.suit = suit
 
@@ -28,3 +28,96 @@ class Card:
 
     def getSuit(self):
         return self.suit
+
+    def __str__(self):
+        cardStr = ""
+        cardStr += self.suit + " "
+        cardStr += self.name
+        return cardStr
+
+class Deck:
+
+    deck = []
+
+    def __init__(self):
+
+
+        for i in range(1, 14):
+            suit = "clubs"
+
+            if i == 1:
+                card = Card(suit, "ace")
+            elif i == 11:
+                card = Card(suit, "jack")
+            elif i == 12:
+                card = Card(suit, "queen")
+            elif i == 13:
+                card = Card(suit, "king")
+            else:
+                card = Card(suit, str(i))
+
+            self.deck.append(card)
+
+        for i in range(1, 14):
+            suit = "diamonds"
+
+            if i == 1:
+                card = Card(suit, "ace")
+            elif i == 11:
+                card = Card(suit, "jack")
+            elif i == 12:
+                card = Card(suit, "queen")
+            elif i == 13:
+                card = Card(suit, "king")
+            else:
+                card = Card(suit, str(i))
+
+            self.deck.append(card)
+
+        for i in range(1, 14):
+            suit = "spades"
+
+            if i == 1:
+                card = Card(suit, "ace")
+            elif i == 11:
+                card = Card(suit, "jack")
+            elif i == 12:
+                card = Card(suit, "queen")
+            elif i == 13:
+                card = Card(suit, "king")
+            else:
+                card = Card(suit, str(i))
+
+            self.deck.append(card)
+
+        for i in range(1, 14):
+            suit = "hearts"
+
+            if i == 1:
+                card = Card(suit, "ace")
+            elif i == 11:
+                card = Card(suit, "jack")
+            elif i == 12:
+                card = Card(suit, "queen")
+            elif i == 13:
+                card = Card(suit, "king")
+            else:
+                card = Card(suit, str(i))
+
+            self.deck.append(card)
+
+
+
+
+
+    def __str__(self):
+        restr = ""
+        restr += "black jack deck \n"
+        for i in self.deck:
+            restr+= str(i) + " "
+        restr+= "\n"
+        return restr
+
+deck = Deck()
+print(deck)
+
