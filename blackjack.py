@@ -33,15 +33,13 @@ class Card:
         cardStr = ""
         cardStr += self.suit + " "
         cardStr += self.name
+        cardStr += "\n"
         return cardStr
 
 class Deck:
-
     deck = []
 
     def __init__(self):
-
-
         for i in range(1, 14):
             suit = "clubs"
 
@@ -106,15 +104,11 @@ class Deck:
 
             self.deck.append(card)
 
-
-
-
-
     def __str__(self):
         restr = ""
         restr += "black jack deck \n"
         for i in self.deck:
-            restr+= str(i) + " "
+            restr+= str(i)
         restr+= "\n"
         return restr
 
