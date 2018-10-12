@@ -14,11 +14,14 @@ class Card:
         self.suit = suit
 
         # Jack, King, & Queen cards all have '10' as an integer value
-        if name == "jack" or name == "king" or name == "queen":
+        if name == "J" or name == "K" or name == "Q":
             self.value = 10
         # Ace can have 1 or 11 but in this case, for ease, it will be just '1'
-        elif name == "ace":
+        elif name == "A":
             self.value = 1
+        elif name == "10":
+            self.value = 10
+            self.name = "T"
         # Else convert the name to an integer value since the above take care of non-int named cards
         else:
             self.value = int(name)
@@ -39,13 +42,10 @@ class Card:
 
     # String representation of a Card
     def __str__(self):
-        cardStr = ("%s of %s: %s" % (self.name, self.suit, str(self.value)))
+        cardStr = ("%s(%s)" % (self.suit, self.name))
         return cardStr
-'''
-    # attempt to condense printing of cards but will fix later
-    def printCard_small(self):
-        print("%c of %s: %s\n" % (self.name, self.suit, str(self.value)))
-'''
+
+
 
 # Deck Class: represents a deck of 52 Cards
 class Deck:
@@ -56,41 +56,41 @@ class Deck:
 
         # Clubs suit
         for i in range(1, 14):
-            suit = "clubs"
-            if i == 1:    card = Card(suit, "ace")
-            elif i == 11: card = Card(suit, "jack")
-            elif i == 12: card = Card(suit, "queen")
-            elif i == 13: card = Card(suit, "king")
+            suit = "C"
+            if i == 1:    card = Card(suit, "A")
+            elif i == 11: card = Card(suit, "J")
+            elif i == 12: card = Card(suit, "Q")
+            elif i == 13: card = Card(suit, "K")
             else:         card = Card(suit, str(i))
             self.deck.append(card)
 
         # Diamonds suit
         for i in range(1, 14):
-            suit = "diamonds"
-            if i == 1:    card = Card(suit, "ace")
-            elif i == 11: card = Card(suit, "jack")
-            elif i == 12: card = Card(suit, "queen")
-            elif i == 13: card = Card(suit, "king")
+            suit = "D"
+            if i == 1:    card = Card(suit, "A")
+            elif i == 11: card = Card(suit, "J")
+            elif i == 12: card = Card(suit, "Q")
+            elif i == 13: card = Card(suit, "K")
             else:         card = Card(suit, str(i))
             self.deck.append(card)
 
         # Spades suit
         for i in range(1, 14):
-            suit = "spades"
-            if i == 1:    card = Card(suit, "ace")
-            elif i == 11: card = Card(suit, "jack")
-            elif i == 12: card = Card(suit, "queen")
-            elif i == 13: card = Card(suit, "king")
+            suit = "S"
+            if i == 1:    card = Card(suit, "A")
+            elif i == 11: card = Card(suit, "J")
+            elif i == 12: card = Card(suit, "Q")
+            elif i == 13: card = Card(suit, "K")
             else:         card = Card(suit, str(i))
             self.deck.append(card)
 
         # Hearts suit
         for i in range(1, 14):
-            suit = "hearts"
-            if i == 1:    card = Card(suit, "ace")
-            elif i == 11: card = Card(suit, "jack")
-            elif i == 12: card = Card(suit, "queen")
-            elif i == 13: card = Card(suit, "king")
+            suit = "H"
+            if i == 1:    card = Card(suit, "A")
+            elif i == 11: card = Card(suit, "J")
+            elif i == 12: card = Card(suit, "Q")
+            elif i == 13: card = Card(suit, "K")
             else:         card = Card(suit, str(i))
             self.deck.append(card)
 
@@ -118,40 +118,10 @@ class Deck:
     # GETTERS & SETTERS
     def get_deck(self):
         return self.deck
-'''
-    # Attempt to print a more condensed version of card but will mess with later
-    def printdeck_small(self):
-        counttemp = 0
-        for i in self.deck:
-            if(counttemp % 5) == 0:
-                print("")
-'''
 
-
-'''
-Possible issues:
-Are we using the same deck for each simulation?
-Meaning, the cards will deplete over time until we run out.
-
-OR, are we resetting the deck (putting the cards back) for each win/loss?
-This makes more sense to me. 
-What this means though is that we'll have to 
-'''
 
 def blackjack_print():
-    deck = Deck()
-    print(deck)
-    deck.shuffle_deck()
+    pass
 
-    shuffledDeck = deck.get_deck()
-
-    print("Five random cards")
-    for i in range(0, 5):
-        print("%d) %s; Size of deck: %d " % (i + 1, shuffledDeck.pop(), len(shuffledDeck)))
-
-    print("")
-
-    #print(decktemp[1])
-    #print(deck.get_deck()[1].get_name())
-    #print("%c" % (deck.get_deck()[0].get_name()[0]))
-
+def runSimulation():
+    print("we're here")
