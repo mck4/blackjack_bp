@@ -32,7 +32,8 @@ class Card:
     def __str__(self):
         cardStr = ""
         cardStr += self.suit + " "
-        cardStr += self.name
+        cardStr += self.name + " "
+        cardStr += str(self.value)
         cardStr += "\n"
         return cardStr
 
