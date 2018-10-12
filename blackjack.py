@@ -43,64 +43,44 @@ class Deck:
         for i in range(1, 14):
             suit = "clubs"
 
-            if i == 1:
-                card = Card(suit, "ace")
-            elif i == 11:
-                card = Card(suit, "jack")
-            elif i == 12:
-                card = Card(suit, "queen")
-            elif i == 13:
-                card = Card(suit, "king")
-            else:
-                card = Card(suit, str(i))
+            if i == 1:    card = Card(suit, "ace")
+            elif i == 11: card = Card(suit, "jack")
+            elif i == 12: card = Card(suit, "queen")
+            elif i == 13: card = Card(suit, "king")
+            else:         card = Card(suit, str(i))
 
             self.deck.append(card)
 
         for i in range(1, 14):
             suit = "diamonds"
 
-            if i == 1:
-                card = Card(suit, "ace")
-            elif i == 11:
-                card = Card(suit, "jack")
-            elif i == 12:
-                card = Card(suit, "queen")
-            elif i == 13:
-                card = Card(suit, "king")
-            else:
-                card = Card(suit, str(i))
+            if i == 1:    card = Card(suit, "ace")
+            elif i == 11: card = Card(suit, "jack")
+            elif i == 12: card = Card(suit, "queen")
+            elif i == 13: card = Card(suit, "king")
+            else:         card = Card(suit, str(i))
 
             self.deck.append(card)
 
         for i in range(1, 14):
             suit = "spades"
 
-            if i == 1:
-                card = Card(suit, "ace")
-            elif i == 11:
-                card = Card(suit, "jack")
-            elif i == 12:
-                card = Card(suit, "queen")
-            elif i == 13:
-                card = Card(suit, "king")
-            else:
-                card = Card(suit, str(i))
+            if i == 1:    card = Card(suit, "ace")
+            elif i == 11: card = Card(suit, "jack")
+            elif i == 12: card = Card(suit, "queen")
+            elif i == 13: card = Card(suit, "king")
+            else:         card = Card(suit, str(i))
 
             self.deck.append(card)
 
         for i in range(1, 14):
             suit = "hearts"
 
-            if i == 1:
-                card = Card(suit, "ace")
-            elif i == 11:
-                card = Card(suit, "jack")
-            elif i == 12:
-                card = Card(suit, "queen")
-            elif i == 13:
-                card = Card(suit, "king")
-            else:
-                card = Card(suit, str(i))
+            if i == 1:    card = Card(suit, "ace")
+            elif i == 11: card = Card(suit, "jack")
+            elif i == 12: card = Card(suit, "queen")
+            elif i == 13: card = Card(suit, "king")
+            else:         card = Card(suit, str(i))
 
             self.deck.append(card)
 
@@ -109,9 +89,12 @@ class Deck:
         restr += "black jack deck \n"
         for i in self.deck:
             restr+= str(i)
-        restr+= "\n"
         return restr
+
+    def getdeck(self):
+        return self.deck
 
 deck = Deck()
 print(deck)
+print(len(deck.getdeck()))
 
