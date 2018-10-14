@@ -55,6 +55,8 @@ class Deck:
 
     # Creating a Deck instance fills the decks with Cards
     def __init__(self):
+        # Building the deck from nothing
+        empty_deck = []
 
         # Clubs suit
         for i in range(1, 14):
@@ -64,7 +66,7 @@ class Deck:
             elif i == 12: card = Card(suit, "Q")
             elif i == 13: card = Card(suit, "K")
             else:         card = Card(suit, str(i))
-            self.deck.append(card)
+            empty_deck.append(card)
 
         # Diamonds suit
         for i in range(1, 14):
@@ -74,7 +76,7 @@ class Deck:
             elif i == 12: card = Card(suit, "Q")
             elif i == 13: card = Card(suit, "K")
             else:         card = Card(suit, str(i))
-            self.deck.append(card)
+            empty_deck.append(card)
 
         # Spades suit
         for i in range(1, 14):
@@ -84,7 +86,7 @@ class Deck:
             elif i == 12: card = Card(suit, "Q")
             elif i == 13: card = Card(suit, "K")
             else:         card = Card(suit, str(i))
-            self.deck.append(card)
+            empty_deck.append(card)
 
         # Hearts suit
         for i in range(1, 14):
@@ -94,7 +96,9 @@ class Deck:
             elif i == 12: card = Card(suit, "Q")
             elif i == 13: card = Card(suit, "K")
             else:         card = Card(suit, str(i))
-            self.deck.append(card)
+            empty_deck.append(card)
+
+        self.deck = empty_deck
 
     # String representation of a Deck
     def __str__(self):
@@ -145,6 +149,7 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times):
 
     if(PRINTSIMDETAIL):
         print("PLAYER: %s, %s vs DEALER: %s, (%s)" % (playerC1, playerC2, dealerC1, dealerC2))
+        print(len(deck.get_deck()))
 
     # Run this the given amount of times
     for i in range(0, times):
