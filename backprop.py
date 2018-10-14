@@ -8,10 +8,10 @@ def randWeight():
 
 # backProp class
 class backProp:
-    inputs = None   # Inputs
-    hiddens = None  # Hiddens
-    outputs = None  # Outputs
-    eta = None      # A variable for
+    num_inputs = None   # Num of Inputs
+    num_hiddens = None  # Num of Hiddens
+    num_outputs = None  # Num of Outputs
+    eta = None
     weightBottoms = []
     weightTops = []
     biasBottom = []
@@ -20,37 +20,41 @@ class backProp:
     output = []
 
     def __init__(self, inputs, hiddens, outputs, eta):
-        self.inputs = inputs
-        self.hiddens = hiddens
-        self.outputs = outputs
+        self.num_inputs = inputs
+        self.num_hiddens = hiddens
+        self.num_outputs = outputs
         self.eta = eta
 
-        for i in range(self.inputs):
+        # Select random weights for weightBottoms
+        for i in range(self.num_inputs):
             column = []
-            for j in range(self.hiddens):
+            for j in range(self.num_hiddens):
                 column.append(randWeight())
             self.weightBottoms.append(column)
 
-        for i in range(self.hiddens):
+        # Select random weights for weightTops
+        for i in range(self.num_hiddens):
             column = []
-            for j in range(self.outputs):
+            for j in range(self.num_outputs):
                 column.append(randWeight())
             self.weightTops.append(column)
 
-        for i in range(self.hiddens):
+        # Select random weights for biasBottom
+        for i in range(self.num_hiddens):
             self.biasBottom.append(randWeight())
 
-        for i in range(self.outputs):
+        # Select random weights for biasTop
+        for i in range(self.num_outputs):
             self.biasTop.append(randWeight())
 
-    def get_inputs(self):
-        return self.inputs
+    def get_num_inputs(self):
+        return self.num_inputs
 
-    def get_hiddens(self):
-        return self.hiddens
+    def get_num_hiddens(self):
+        return self.num_hiddens
 
-    def get_outputs(self):
-        return self.outputs
+    def get_num_outputs(self):
+        return self.num_outputs
 
     def get_eta(self):
         return self.eta

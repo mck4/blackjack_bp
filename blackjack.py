@@ -46,7 +46,6 @@ class Card:
         return cardStr
 
 
-
 # Deck Class: represents a deck of 52 Cards
 class Deck:
     deck = [] # Empty deck
@@ -112,6 +111,7 @@ class Deck:
 
         return deckStr
 
+    # Shuffles deck
     def shuffle_deck(self):
         return random.shuffle(self.deck)
 
@@ -120,8 +120,8 @@ class Deck:
         return self.deck
 
 
-def blackjack_print():
-    pass
+def runSimulation(deck, playerC1, playerC2, dealerC1, times):
+    # Dealer draws 2nd card
+    dealerC2 = deck.get_deck().pop(0)
 
-def runSimulation():
-    print("we're here")
+    print("Player: %s, %s vs Dealer: %s, [%s]" % (playerC1, playerC2, dealerC1, dealerC2))

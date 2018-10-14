@@ -6,6 +6,7 @@ import random
 from blackjack import runSimulation
 from blackjack import Deck
 from backprop import backProp # Imports the Class backProp so we can create an instance
+from print import print_initial_state
 
 '''
 # To commit & push in pycharm
@@ -14,73 +15,44 @@ from backprop import backProp # Imports the Class backProp so we can create an i
 '''
 
 def doit(epochs, showFrequency):
-    backprop = backProp(2, 10, 2, 0.1)
-    #print(backprop.get_weightBottoms())
 
-    print("weight input (2) -> hiddens (10)")
-    rows = len(backprop.get_weightBottoms())
-    cols = 0
-    if rows:
-        cols = len(backprop.get_weightBottoms()[0])
-    for j in range(rows):
-        for i in range(cols):
-                print("%8s " % (str(backprop.get_weightBottoms()[j][i])), end="")
-        print()
+    backprop = backProp(2, 5, 2, 0.1) # Create backprop
+    player_cards = [] # list of Player cards
+    player_total = None
+    dealer_cards = [] # list of Dealer cards
+    dealer_total = None
 
-    print()
-    print("weight hiddens (10) -> outputs (2)")
+    # Initialize deck
+    deck = Deck()
 
-    rows = len(backprop.get_weightTops())
-    cols = 0
-    if rows:
-        cols = len(backprop.get_weightTops()[0])
-    for j in range(rows):
-        for i in range(cols):
-            print("%8s " % (str(backprop.get_weightTops()[j][i])), end="")
-        print()
+    # Shuffle deck
+    deck.shuffle_deck()
 
-    print()
-    print("Bias for the hiddens")
-    count = 1
-    for i in backprop.get_biasBottom():
-        print("%8s " % (str(i)), end="")
-        if (count % 5) == 0:
-            print()
-        count += 1
+    # Player draws 2 cards
+    playerC1 = deck.get_deck().pop(0)
+    playerC2 = deck.get_deck().pop(0)
+    # Add to list of Player cards
+    player_cards.append(playerC1)
+    player_cards.append(playerC2)
+    player_total = playerC1.get_value() + playerC2.get_value()
 
-    print()
-    print("Bias for the outputs ")
-    for i in backprop.get_biasTop():
-        print("%8s " % (str(i)), end="")
+    # Dealer draws 1 card
+    dealerC1 = deck.get_deck().pop(0)
+    # Add to list of Dealer cards
+    dealer_cards.append(dealerC1)
+    dealer_total = dealerC1.get_value()
+
+    print(player_total, dealer_total)
+
+    # P's 1st card; P's 2nd card; D's 1st card; # of times
+    runSimulation(deck, playerC1, playerC2, dealerC1, 20)
+
+    print("")
+    print_initial_state(backprop)
 
 
 
 ##############START################
 
-deck = Deck()
-
-#print(deck)
-#deck.shuffle_deck()
-
-#shuffledDeck = deck.get_deck()
-
-print("Five random cards")
-for i in range(0, 10):
-    deck.shuffle_deck()
-    print("%d) %s" % (i + 1, deck.get_deck()[0]))
-
-print("")
-
-#print(decktemp[1])
-#print(deck.get_deck()[1].get_name())
-#print("%c" % (deck.get_deck()[0].get_name()[0]))
-
-playerC1 = deck.get_deck()[0].get_name()
-playerC2 = deck.get_deck()[1].get_name()
-dealerC1 = deck.get_deck()[2].get_name()
-print(playerC1, playerC2, dealerC1)
-
-runSimulation()
-
-#doit(1000000, 100000)
+doit(1000000, 100000)
 
