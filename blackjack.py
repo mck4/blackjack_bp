@@ -2,7 +2,7 @@
 import random
 
 PRINTSIMDETAIL = 1
-PRINTSIMDETAILVERBOSE = 1
+PRINTSIMDETAILVERBOSE = 0
 
 # Card Class: Represents a single card
 class Card:
@@ -127,21 +127,23 @@ class Deck:
     def get_deck(self):
         return self.deck
 
-def win_holds(deck, num_playercards, player_total, dealer_total):
-    # 1 denotes a win; 0 denotes a loss
+# If we decide to hold -> 1 denotes a win; 0 denotes a loss
+def win_holds(deck, num_playercards, player_total, dealer_total, curindex):
 
-    # Instead of popping cards, the dealer will draw from the top and advance to the next card in the deck
-    # Keep track of the index
-    index = 0
+    # Instead of popping cards which alters the deck, the dealer will
+    # draw from the top and advance to the next card in the deck
+    # Keep track of index
+    index = curindex
 
     # Five Card Charlie
     if(num_playercards >= 5): return 1
 
     while(1):
-        if(PRINTSIMDETAILVERBOSE and index == 0): print("HOLD -> ", end="")
+        if((PRINTSIMDETAILVERBOSE or PRINTSIMDETAIL) and index == 0): print("HOLD -> ", end="")
         # Dealer busts - Total greater then 21
         if dealer_total > 21:
             if(PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> D: Bust" % (player_total, dealer_total))
+            if (PRINTSIMDETAIL): print("P wins")
             return 1
 
         # Dealer's Current hand is acceptable - total greater than 16
@@ -149,23 +151,58 @@ def win_holds(deck, num_playercards, player_total, dealer_total):
             # Dealer Wins - Tie or the dealer's total is greater than players
             if(dealer_total >= player_total):
                 if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> D: Win" % (player_total, dealer_total))
+                if (PRINTSIMDETAIL): print("P loses")
                 return 0
             # Player Wins - Total greater than dealer's
             else:
                 if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> P: Win" % (player_total, dealer_total))
+                if (PRINTSIMDETAIL): print("P wins")
                 return 1
         # Dealer's Current hand is unacceptable - must draw another card
         else:
-            drawNewCard = deck.get_deck()[index]
-            print(" %s, " % drawNewCard, end="")
-            index += 1
-            dealer_total += drawNewCard.get_value()
+            # Dealer draws a card
+            dealer_drawNewCard = deck.get_deck()[index]
+
+            if (PRINTSIMDETAILVERBOSE): print(" %s, " % dealer_drawNewCard, end="")
+
+            index += 1 # Increment index
+            # Add to dealer total
+            dealer_total += dealer_drawNewCard.get_value()
+
+# If we decide to draw -> 1 denotes a win; 0 denotes a loss
+def win_draws(deck, num_playercards, player_total, dealer_total, curindex):
+
+    # Instead of popping cards which alters the deck, the dealer will
+    # draw from the top and advance to the next card in the deck
+    # Keep track of index
+    index = curindex
+
+    # Player draws a card
+    player_drawNewCard = deck.get_deck()[index]
+    # Add to player total
+    player_total += player_drawNewCard.get_value()
+    num_playercards += 1  # Increment player's cards
+
+    index += 1           # Increment index
+    if (PRINTSIMDETAILVERBOSE or PRINTSIMDETAIL): print("DRAW -> ", end="")
+    if (PRINTSIMDETAILVERBOSE): print(" %s, " % player_drawNewCard, end="")
+
+    if(player_total > 21):
+        if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> P: Bust" % (player_total, dealer_total))
+        if(PRINTSIMDETAIL): print("P loses")
+        return 0
+
+    if(player_total > 16):
+        if(win_holds(deck, num_playercards, player_total, dealer_total, index)):
+            return 1
+    else:
+        if (win_draws(deck, num_playercards, player_total, dealer_total, index)):
+            return 1
+
+    return 0
 
 
-def win_draws(deck, num_playercards, player_total, dealer_total):
-    pass
-
-# This simulation will, through, simulations, conclude what the desired output is
+# This simulation will conclude what the desired output is
 def runSimulation(deck, playerC1, playerC2, dealerC1, times):
     hold_wins = 0 # Num of holds resulting in a win
     draw_wins = 0 # Num of draws resulting in a win
@@ -182,23 +219,26 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times):
     if(PRINTSIMDETAIL):
         print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
               (player_total, playerC1, playerC2, dealer_total, dealerC1, dealerC2))
+        #print()
         #print(len(deck.get_deck()))
 
     # Run this the given amount of times
     for i in range(0, times):
-        print("%d) " % (i + 1), end="")
+        #print("%d) " % (i + 1))
 
         # Shuffle deck
         deck.shuffle_deck()
 
         # Does holding result in a win?
-        if(win_holds(deck, num_playercards, player_total, dealer_total)):
+        if(win_holds(deck, num_playercards, player_total, dealer_total, 0)):
             hold_wins += 1
 
         # Does drawing result in a win?
-        #if(win_draws(deck, num_playercards, player_total, dealer_total)):
-         #   draw_wins += 1
-    #print()
+        if(win_draws(deck, num_playercards, player_total, dealer_total, 0)):
+            draw_wins += 1
+
+        if (PRINTSIMDETAILVERBOSE): print()
+
 
     if(draw_wins > hold_wins): return 0 # We would want to draw
     else: return 1 # We would want to hold

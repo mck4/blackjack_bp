@@ -77,10 +77,10 @@ def doit(epochs, showFrequency):
         ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
         desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10) # Returns 0 - draw or 1 -
 
-        print(desired_output)
+
 
         line = "draw" if (desired_output == 0) else "hold"
-        print("We want to %s" % line)
+        print("After %d trials, we want to %s" % (10, line))
 
         print("")
 
