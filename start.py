@@ -16,11 +16,14 @@ from print import print_initial_state
 
 def doit(epochs, showFrequency):
 
-    backprop = backProp(2, 5, 2, 0.1) # Create
+    # Create backProp
+    backprop = backProp(2, 5, 2, 0.1)
 
+    # Print initial state of backProp
     print_initial_state(backprop)
-    print()
+    print() # Adds a blank line
 
+    ########## WILL NEED TO BE PUT INTO A FOR LOOP IN THE NEAR FUTURE
     player_cards = [] # list of Player cards
     player_total = None
     dealer_cards = [] # list of Dealer cards
@@ -42,8 +45,10 @@ def doit(epochs, showFrequency):
     player_cards.append(playerC2)
     # Adding up the total points for the player
     player_total = playerC1.get_value() + playerC2.get_value()
-    # Converting the total (2 to 21) to a value between 0 to 1
-    inputs.append((player_total - 1)/19.0) #NOTE: maybe the total is 2 to 20??
+    # Converting the total (2 to 20) to a value between 0 to 1
+    '''NOTE: changed from (2 to 21) to (2 to 20) since 21 is not a possible player total; ace is only a 1 here'''
+    inputs.append((player_total - 1)/19.0)
+
 
     # Dealer draws 1 card
     dealerC1 = deck.get_deck().pop(0) # 49 cards left in deck
@@ -59,6 +64,7 @@ def doit(epochs, showFrequency):
     print(inputs)
 
     # P's 1st card; P's 2nd card; D's 1st card; # of times
+    ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
     runSimulation(deck, playerC1, playerC2, dealerC1, 20)
 
     print("")
