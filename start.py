@@ -50,7 +50,7 @@ def doit(epochs, showFrequency):
         player_cards.append(playerC2)
         # Adding up the total points for the player
         player_total = playerC1.get_value() + playerC2.get_value()
-        # Converting the total (2 to 20) to a value between 0 to 1
+        # Converting the total (2 to 20) to a value between 0 to 1; Rounding to 5 decimal places
         '''NOTE: changed from (2 to 21) to (2 to 20) since 21 is not a possible player total; ace is only a 1 here'''
         inputs.append(round( (player_total - 1)/19.0 , 5))
 
@@ -61,16 +61,26 @@ def doit(epochs, showFrequency):
         dealer_cards.append(dealerC1)
         # Adding up the total points for the dealer
         dealer_total = dealerC1.get_value()
-        # Converting the total (1 to 10) to a value between 0 to 1
+        # Converting the total (1 to 10) to a value between 0 to 1; Rounding to 5 decimal places
         inputs.append(round( (dealer_total - 1)/9.0 , 5))
 
+
         # Debug
-        print("pTotal: %s, dTotal: %s" % (player_total, dealer_total))
-        print("Inputs:", str(inputs))
+        #print("DEBUG INFO")
+        #print("len of pcards: %d" % len(player_cards))
+        #print("len of dcards: %d" % len(dealer_cards))
+        #print("pTotal: %s, dTotal: %s" % (player_total, dealer_total))
+        #print("Inputs:", str(inputs))
+        #print()
 
         # P's 1st card; P's 2nd card; D's 1st card; # of times
         ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
-        desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 20) # Returns 0 - draw or 1 - hold
+        desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10) # Returns 0 - draw or 1 -
+
+        print(desired_output)
+
+        line = "draw" if (desired_output == 0) else "hold"
+        print("We want to %s" % line)
 
         print("")
 
