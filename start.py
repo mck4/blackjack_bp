@@ -23,11 +23,11 @@ def doit(epochs, showFrequency):
 
 
     # Print initial state of backProp
-    print_initial_state(backprop)
-    print() # Adds a blank line
+    #print_initial_state(backprop)
+    #print() # Adds a blank line
 
     ########## WILL NEED TO BE PUT INTO A FOR LOOP IN THE NEAR FUTURE
-    for i in range(0,5):
+    for i in range(0,20):
         player_cards = [] # list of Player cards
         player_total = None
         dealer_cards = [] # list of Dealer cards
@@ -65,24 +65,22 @@ def doit(epochs, showFrequency):
         inputs.append(round( (dealer_total - 1)/9.0 , 5))
 
 
-        # Debug
-        #print("DEBUG INFO")
-        #print("len of pcards: %d" % len(player_cards))
-        #print("len of dcards: %d" % len(dealer_cards))
-        #print("pTotal: %s, dTotal: %s" % (player_total, dealer_total))
-        #print("Inputs:", str(inputs))
-        #print()
+
 
         # P's 1st card; P's 2nd card; D's 1st card; # of times
         ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
-        desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10) # Returns 0 - draw or 1 -
+        desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10) # Returns 0 - draw or 1 - hold
 
-
-
-        line = "draw" if (desired_output == 0) else "hold"
-        print("After %d trials, we want to %s" % (10, line))
-
-        print("")
+        # Debug
+        print("DEBUG INFO")
+        # print("len of pcards: %d" % len(player_cards))
+        # print("len of dcards: %d" % len(dealer_cards))
+        print("pTotal: %s, dTotal: %s" % (player_total, dealer_total))
+        print("Inputs:", str(inputs))
+        print()
+        #line = "draw" if (desired_output == 0) else "hold"
+        #print("we want to %s" % (line))
+        #print("")
 
         deck = None
 
@@ -90,6 +88,6 @@ def doit(epochs, showFrequency):
 
 
 ##############START################
-
+print()
 doit(1000000, 100000)
 

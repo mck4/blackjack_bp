@@ -1,8 +1,9 @@
 # Usual python imports
 import random
 
-PRINTSIMDETAIL = 1
-PRINTSIMDETAILVERBOSE = 0
+PRINTSIMDETAIL = 0
+PRINTSIMDETAILVERBOSE = 1
+
 
 # Card Class: Represents a single card
 class Card:
@@ -135,28 +136,36 @@ def win_holds(deck, num_playercards, player_total, dealer_total, curindex):
     # Keep track of index
     index = curindex
 
+
     # Five Card Charlie
-    if(num_playercards >= 5): return 1
+    #if (num_playercards >= 5):
+    #    # Player wins if the five cards are less than 20
+    #    if (player_total <= 21):
+    #        # player wins
+    #        if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> P: Wins" % (player_total, dealer_total), end="")
+    #        if (PRINTSIMDETAIL): print(" P wins; 5 card charlie")
+    #        return 1
+
 
     while(1):
-        if((PRINTSIMDETAILVERBOSE or PRINTSIMDETAIL) and index == 0): print("HOLD -> ", end="")
+        if((PRINTSIMDETAILVERBOSE or PRINTSIMDETAIL) and index == 0): print("\n  HOLD -> ", end="")
         # Dealer busts - Total greater then 21
         if dealer_total > 21:
-            if(PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> D: Bust" % (player_total, dealer_total))
-            if (PRINTSIMDETAIL): print("P wins")
+            if(PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> D: Bust" % (player_total, dealer_total), end="")
+            if (PRINTSIMDETAIL): print(" P wins", end="")
             return 1
 
         # Dealer's Current hand is acceptable - total greater than 16
         if(dealer_total > 16):
             # Dealer Wins - Tie or the dealer's total is greater than players
             if(dealer_total >= player_total):
-                if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> D: Win" % (player_total, dealer_total))
-                if (PRINTSIMDETAIL): print("P loses")
+                if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> D: Win" % (player_total, dealer_total), end="")
+                if (PRINTSIMDETAIL): print(" P loses", end="")
                 return 0
             # Player Wins - Total greater than dealer's
             else:
-                if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> P: Win" % (player_total, dealer_total))
-                if (PRINTSIMDETAIL): print("P wins")
+                if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> P: Win" % (player_total, dealer_total), end="")
+                if (PRINTSIMDETAIL): print(" P wins", end="")
                 return 1
         # Dealer's Current hand is unacceptable - must draw another card
         else:
@@ -183,13 +192,25 @@ def win_draws(deck, num_playercards, player_total, dealer_total, curindex):
     player_total += player_drawNewCard.get_value()
     num_playercards += 1  # Increment player's cards
 
-    index += 1           # Increment index
-    if (PRINTSIMDETAILVERBOSE or PRINTSIMDETAIL): print("DRAW -> ", end="")
+    # Five Card Charlie
+    if (num_playercards >= 5):
+        # Player wins if the five cards are less than 20
+        if (player_total <= 21):
+            # player wins
+            if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> P: Wins" % (player_total, dealer_total), end="")
+            if (PRINTSIMDETAIL): print(" P wins; 5 card charlie", end="")
+            return 1
+
+    index += 1 # Increment index
+
+    if (PRINTSIMDETAILVERBOSE or PRINTSIMDETAIL):
+        if(index == 1): print("\n  DRAW -> ", end="")
+        else: print(" DRAW -> ", end="")
     if (PRINTSIMDETAILVERBOSE): print(" %s, " % player_drawNewCard, end="")
 
     if(player_total > 21):
-        if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> P: Bust" % (player_total, dealer_total))
-        if(PRINTSIMDETAIL): print("P loses")
+        if (PRINTSIMDETAILVERBOSE): print(" P(%d), D(%d) -> P: Bust" % (player_total, dealer_total), end="")
+        if (PRINTSIMDETAIL): print(" P loses", end="")
         return 0
 
     if(player_total > 16):
@@ -216,11 +237,14 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times):
     # Add up the dealer's card total
     dealer_total = dealerC1.get_value() + dealerC2.get_value()
 
-    if(PRINTSIMDETAIL):
+    if(PRINTSIMDETAIL or PRINTSIMDETAILVERBOSE):
+        print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
+              (player_total, playerC1, playerC2, dealer_total, dealerC1, dealerC2), end="")
+    else:
         print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
               (player_total, playerC1, playerC2, dealer_total, dealerC1, dealerC2))
-        #print()
-        #print(len(deck.get_deck()))
+        print()
+
 
     # Run this the given amount of times
     for i in range(0, times):
@@ -237,8 +261,11 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times):
         if(win_draws(deck, num_playercards, player_total, dealer_total, 0)):
             draw_wins += 1
 
-        if (PRINTSIMDETAILVERBOSE): print()
+        #if (PRINTSIMDETAILVERBOSE): print()
 
+
+    if (PRINTSIMDETAIL or PRINTSIMDETAILVERBOSE):
+        print("\nDraw wins: %d, Hold wins: %d\n" % (draw_wins, hold_wins))
 
     if(draw_wins > hold_wins): return 0 # We would want to draw
     else: return 1 # We would want to hold
