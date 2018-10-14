@@ -16,11 +16,17 @@ from print import print_initial_state
 
 def doit(epochs, showFrequency):
 
-    backprop = backProp(2, 5, 2, 0.1) # Create backprop
+    backprop = backProp(2, 5, 2, 0.1) # Create
+
+    print_initial_state(backprop)
+    print()
+
     player_cards = [] # list of Player cards
     player_total = None
     dealer_cards = [] # list of Dealer cards
     dealer_total = None
+
+    inputs = [] # Two inputs: Player's total, Dealer's total
 
     # Initialize deck
     deck = Deck()
@@ -35,20 +41,24 @@ def doit(epochs, showFrequency):
     player_cards.append(playerC1)
     player_cards.append(playerC2)
     player_total = playerC1.get_value() + playerC2.get_value()
+    inputs.append((player_total - 2)/19.0)
 
     # Dealer draws 1 card
     dealerC1 = deck.get_deck().pop(0)
     # Add to list of Dealer cards
     dealer_cards.append(dealerC1)
     dealer_total = dealerC1.get_value()
+    inputs.append((dealer_total - 1)/9.0)
 
+    # Debug
     print(player_total, dealer_total)
+    print(inputs)
 
     # P's 1st card; P's 2nd card; D's 1st card; # of times
     runSimulation(deck, playerC1, playerC2, dealerC1, 20)
 
     print("")
-    print_initial_state(backprop)
+
 
 
 

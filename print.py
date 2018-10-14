@@ -1,5 +1,7 @@
 
 def print_initial_state(backprop):
+    print("INITIAL STATE OF NETWORK\n")
+
     print("weight input (%d) -> hiddens (%d)" % (backprop.get_num_inputs(), backprop.get_num_hiddens()))
     rows = len(backprop.get_weightBottoms())
     cols = 0

@@ -42,7 +42,7 @@ class Card:
 
     # String representation of a Card
     def __str__(self):
-        cardStr = ("%s(%s)" % (self.suit, self.name))
+        cardStr = ("%s of %s" % (self.name, self.suit))
         return cardStr
 
 
@@ -119,8 +119,16 @@ class Deck:
     def get_deck(self):
         return self.deck
 
+def win_holds():
+    pass
+
+def win_draws():
+    pass
 
 def runSimulation(deck, playerC1, playerC2, dealerC1, times):
+    hold_wins = 0 # Num of holds resulting in a win
+    draw_wins = 0 # Num of draws resulting in a win
+
     # Dealer draws 2nd card
     dealerC2 = deck.get_deck().pop(0)
 
