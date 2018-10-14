@@ -2,7 +2,7 @@
 import random
 
 PRINTSIMDETAIL = 0
-PRINTSIMDETAILVERBOSE = 1
+PRINTSIMDETAILVERBOSE = 0
 
 
 # Card Class: Represents a single card
@@ -240,10 +240,10 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times):
     if(PRINTSIMDETAIL or PRINTSIMDETAILVERBOSE):
         print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
               (player_total, playerC1, playerC2, dealer_total, dealerC1, dealerC2), end="")
-    else:
-        print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
-              (player_total, playerC1, playerC2, dealer_total, dealerC1, dealerC2))
-        print()
+    #else:
+        #print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
+         #     (player_total, playerC1, playerC2, dealer_total, dealerC1, dealerC2))
+        #print()
 
 
     # Run this the given amount of times

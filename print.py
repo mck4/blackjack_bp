@@ -25,7 +25,7 @@ def print_initial_state(backprop):
         print()
 
     print()
-    print("Bias for the hiddens")
+    print("Bias for the hiddens ", end="")
     count = 1
     for i in backprop.get_biasBottom():
         print("%8s " % (str(i)), end="")
@@ -35,7 +35,7 @@ def print_initial_state(backprop):
 
     print("")
 
-    print("Bias for the outputs ")
+    print("Bias for the outputs ", end="")
     for i in backprop.get_biasTop():
         print("%8s " % (str(i)), end="")
 

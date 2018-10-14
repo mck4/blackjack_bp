@@ -27,7 +27,7 @@ def doit(epochs, showFrequency):
     #print() # Adds a blank line
 
     ########## WILL NEED TO BE PUT INTO A FOR LOOP IN THE NEAR FUTURE
-    for i in range(0,20):
+    for i in range(0,2000):
         player_cards = [] # list of Player cards
         player_total = None
         dealer_cards = [] # list of Dealer cards
@@ -66,23 +66,29 @@ def doit(epochs, showFrequency):
 
 
 
-
         # P's 1st card; P's 2nd card; D's 1st card; # of times
         ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
         desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10) # Returns 0 - draw or 1 - hold
 
+        # For printing; did we hold or draw?
+        line = "draw" if (desired_output == 0) else "hold"
+
+        # Comes after runSimulation because we use the desired_output to calculate other stuff
+        print("%d.  (%s %s - % s) -> %s with conf=[num] desired=%s right=[num]" %
+              (i + 1, playerC1.get_name(), playerC2.get_name(), dealerC1.get_name(), line, line))
+
         # Debug
-        print("DEBUG INFO")
+        #print("DEBUG INFO")
         # print("len of pcards: %d" % len(player_cards))
         # print("len of dcards: %d" % len(dealer_cards))
-        print("pTotal: %s, dTotal: %s" % (player_total, dealer_total))
-        print("Inputs:", str(inputs))
-        print()
+        #print("pTotal: %s, dTotal: %s" % (player_total, dealer_total))
+        #print("Inputs:", str(inputs))
+        #print()
         #line = "draw" if (desired_output == 0) else "hold"
         #print("we want to %s" % (line))
         #print("")
 
-        deck = None
+
 
 
 
