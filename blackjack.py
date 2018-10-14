@@ -1,6 +1,9 @@
 # Usual python imports
 import random
 
+PRINTSIMDETAIL = 1
+PRINTSIMDETAILVERBOSE = 1
+
 # Card Class: Represents a single card
 class Card:
     name = None     # Name of the card:  Could be '1', 'ace', 'queen', etc
@@ -119,17 +122,41 @@ class Deck:
     def get_deck(self):
         return self.deck
 
-def win_holds():
+def win_holds(num_playercards, player_total, dealer_total):
+
     pass
 
-def win_draws():
+def win_draws(num_playercards, player_total, dealer_total):
     pass
 
+# This simulation will, through, simulations, conclude what the desired output is
 def runSimulation(deck, playerC1, playerC2, dealerC1, times):
     hold_wins = 0 # Num of holds resulting in a win
     draw_wins = 0 # Num of draws resulting in a win
+    num_playercards = 2 # HARD CODED FOR NOW, could be 3, 4, ... in the future
 
     # Dealer draws 2nd card which the player can't see
-    dealerC2 = deck.get_deck().pop(0)
+    dealerC2 = deck.get_deck().pop(0) # 48 cards left in the deck
 
-    print("Player: %s, %s vs Dealer: %s, [%s]" % (playerC1, playerC2, dealerC1, dealerC2))
+    # Add up the player's card total
+    player_total = playerC1.get_value() + playerC2.get_value()
+    # Add up the dealer's card total
+    dealer_total = dealerC1.get_value() + dealerC2.get_value()
+
+    if(PRINTSIMDETAIL):
+        print("PLAYER: %s, %s vs DEALER: %s, (%s)" % (playerC1, playerC2, dealerC1, dealerC2))
+
+    # Run this the given amount of times
+    for i in range(0, times):
+        # Does holding result in a win?
+        if(win_holds(num_playercards, player_total, dealer_total)):
+            hold_wins += 1
+
+        # Does drawing result in a win?
+        if(win_draws(num_playercards, player_total, dealer_total)):
+            draw_wins += 1
+
+    if(draw_wins > hold_wins):
+        return 0 # We would want to draw
+    else:
+        return 1 # We would want to hold

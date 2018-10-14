@@ -8,6 +8,7 @@ from blackjack import Deck
 from backprop import backProp # Imports the Class backProp so we can create an instance
 from print import print_initial_state
 
+
 '''
 # To commit & push in pycharm
 # 1) VCS>Commit...
@@ -28,6 +29,7 @@ def doit(epochs, showFrequency):
     player_total = None
     dealer_cards = [] # list of Dealer cards
     dealer_total = None
+    desired_output = None
 
     inputs = [] # Two inputs: Player's total, Dealer's total
 
@@ -60,12 +62,12 @@ def doit(epochs, showFrequency):
     inputs.append((dealer_total - 1)/9.0)
 
     # Debug
-    print(player_total, dealer_total)
-    print(inputs)
+    print("pTotal: %s, dTotal: %s" % (player_total, dealer_total))
+    print("Inputs:", str(inputs))
 
     # P's 1st card; P's 2nd card; D's 1st card; # of times
     ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
-    runSimulation(deck, playerC1, playerC2, dealerC1, 20)
+    desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 20) # Returns 0 - draw or 1 - hold
 
     print("")
 
