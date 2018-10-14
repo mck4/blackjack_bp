@@ -129,7 +129,7 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times):
     hold_wins = 0 # Num of holds resulting in a win
     draw_wins = 0 # Num of draws resulting in a win
 
-    # Dealer draws 2nd card
+    # Dealer draws 2nd card which the player can't see
     dealerC2 = deck.get_deck().pop(0)
 
     print("Player: %s, %s vs Dealer: %s, [%s]" % (playerC1, playerC2, dealerC1, dealerC2))

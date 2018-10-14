@@ -35,19 +35,23 @@ def doit(epochs, showFrequency):
     deck.shuffle_deck()
 
     # Player draws 2 cards
-    playerC1 = deck.get_deck().pop(0)
-    playerC2 = deck.get_deck().pop(0)
+    playerC1 = deck.get_deck().pop(0) # 51 cards left in deck
+    playerC2 = deck.get_deck().pop(0) # 50 cards left in deck
     # Add to list of Player cards
     player_cards.append(playerC1)
     player_cards.append(playerC2)
+    # Adding up the total points for the player
     player_total = playerC1.get_value() + playerC2.get_value()
-    inputs.append((player_total - 2)/19.0)
+    # Converting the total (2 to 21) to a value between 0 to 1
+    inputs.append((player_total - 1)/19.0) #NOTE: maybe the total is 2 to 20??
 
     # Dealer draws 1 card
-    dealerC1 = deck.get_deck().pop(0)
+    dealerC1 = deck.get_deck().pop(0) # 49 cards left in deck
     # Add to list of Dealer cards
     dealer_cards.append(dealerC1)
+    # Adding up the total points for the dealer
     dealer_total = dealerC1.get_value()
+    # Converting the total (1 to 10) to a value between 0 to 1
     inputs.append((dealer_total - 1)/9.0)
 
     # Debug
