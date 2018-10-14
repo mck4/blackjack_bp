@@ -23,11 +23,11 @@ def doit(epochs, showFrequency):
 
 
     # Print initial state of backProp
-    #print_initial_state(backprop)
-    #print() # Adds a blank line
+    print_initial_state(backprop)
+    print() # Adds a blank line
 
     ########## WILL NEED TO BE PUT INTO A FOR LOOP IN THE NEAR FUTURE
-    for i in range(0,2000):
+    for i in range(1,epochs + 1):
         player_cards = [] # list of Player cards
         player_total = None
         dealer_cards = [] # list of Dealer cards
@@ -68,14 +68,15 @@ def doit(epochs, showFrequency):
 
         # P's 1st card; P's 2nd card; D's 1st card; # of times
         ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
-        desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10) # Returns 0 - draw or 1 - hold
+        desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10, i) # Returns 0 - draw or 1 - hold
 
         # For printing; did we hold or draw?
         line = "draw" if (desired_output == 0) else "hold"
 
         # Comes after runSimulation because we use the desired_output to calculate other stuff
-        print("%d.  (%s %s - % s) -> %s with conf=[num] desired=%s right=[num]" %
-              (i + 1, playerC1.get_name(), playerC2.get_name(), dealerC1.get_name(), line, line))
+        if(i <= 10 or ((i % showFrequency) == 0)):
+            print("%d.  (%s %s - % s) -> %s with conf=[num] desired=%s right=[num]" %
+                  (i , playerC1.get_name(), playerC2.get_name(), dealerC1.get_name(), line, line))
 
         # Debug
         #print("DEBUG INFO")
@@ -95,5 +96,5 @@ def doit(epochs, showFrequency):
 
 ##############START################
 print()
-doit(1000000, 100000)
+doit(10000, 1000)
 

@@ -2,7 +2,7 @@
 def print_initial_state(backprop):
     print("INITIAL STATE OF NETWORK\n")
 
-    print("weight input (%d) -> hiddens (%d)" % (backprop.get_num_inputs(), backprop.get_num_hiddens()))
+    print("weight input (%d) -> hiddens (%d):" % (backprop.get_num_inputs(), backprop.get_num_hiddens()))
     rows = len(backprop.get_weightBottoms())
     cols = 0
     if rows:
@@ -13,7 +13,7 @@ def print_initial_state(backprop):
         print()
 
     print()
-    print("weight hiddens (%d) -> outputs (%d)" % (backprop.get_num_inputs(), backprop.get_num_hiddens()))
+    print("weight hiddens (%d) -> outputs (%d):" % (backprop.get_num_inputs(), backprop.get_num_hiddens()))
 
     rows = len(backprop.get_weightTops())
     cols = 0
@@ -25,7 +25,7 @@ def print_initial_state(backprop):
         print()
 
     print()
-    print("Bias for the hiddens ", end="")
+    print("Bias for the hiddens: ", end="")
     count = 1
     for i in backprop.get_biasBottom():
         print("%8s " % (str(i)), end="")
@@ -35,7 +35,7 @@ def print_initial_state(backprop):
 
     print("")
 
-    print("Bias for the outputs ", end="")
+    print("Bias for the outputs: ", end="")
     for i in backprop.get_biasTop():
         print("%8s " % (str(i)), end="")
 
