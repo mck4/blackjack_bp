@@ -6,6 +6,7 @@ import random
 from blackjack import runSimulation
 from blackjack import Deck
 from backprop import backProp # Imports the Class backProp so we can create an instance
+from backprop import predictBP
 from print import print_initial_state
 
 
@@ -18,7 +19,7 @@ from print import print_initial_state
 def doit(epochs, showFrequency):
 
     # Create backProp
-    backprop1 = backProp(2, 10, 2, 0.1)
+    backprop1 = backProp(2, 5, 2, 0.1)
     desired_output = None
 
 
@@ -49,24 +50,24 @@ def doit(epochs, showFrequency):
         deck.shuffle_deck()
 
         # Player draws 2 cards
-        playerC1 = deck.get_deck().pop(0) # 51 cards left in deck
-        playerC2 = deck.get_deck().pop(0) # 50 cards left in deck
+        playerC1 = deck.deck.pop(0) # 51 cards left in deck
+        playerC2 = deck.deck.pop(0) # 50 cards left in deck
         # Add to list of Player cards
         player_cards.append(playerC1)
         player_cards.append(playerC2)
         # Adding up the total points for the player
-        player_total = playerC1.get_value() + playerC2.get_value()
+        player_total = playerC1.value + playerC2.value
         # Converting the total (2 to 20) to a value between 0 to 1; Rounding to 5 decimal places
         '''NOTE: changed from (2 to 21) to (2 to 20) since 21 is not a possible player total; ace is only a 1 here'''
         inputs.append(round( (player_total - 1)/19.0 , 5))
 
 
         # Dealer draws 1 card
-        dealerC1 = deck.get_deck().pop(0) # 49 cards left in deck
+        dealerC1 = deck.deck.pop(0) # 49 cards left in deck
         # Add to list of Dealer cards
         dealer_cards.append(dealerC1)
         # Adding up the total points for the dealer
-        dealer_total = dealerC1.get_value()
+        dealer_total = dealerC1.value
         # Converting the total (1 to 10) to a value between 0 to 1; Rounding to 5 decimal places
         inputs.append(round( (dealer_total - 1)/9.0 , 5))
 
@@ -76,6 +77,8 @@ def doit(epochs, showFrequency):
         ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
         desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10, i) # Returns 0 - draw or 1 - hold
 
+        predictBP(backprop1, inputs, confidence)
+
         # For printing; did we hold or draw?
         line = "draw" if (desired_output == 0) else "hold"
 
@@ -83,7 +86,7 @@ def doit(epochs, showFrequency):
         # Print first 10 epochs & then every value of showFrequency thereafter
         if(i <= 10 or ((i % showFrequency) == 0)):
             print("%d.  (%s %s - % s) -> %s with conf=[num] desired=%s right=[num]" %
-                  (i , playerC1.get_name(), playerC2.get_name(), dealerC1.get_name(), line, line))
+                  (i , playerC1.name, playerC2.name, dealerC1.name, line, line))
 
         # Debug
         #print("DEBUG INFO")
@@ -98,10 +101,7 @@ def doit(epochs, showFrequency):
 
 
 
-
-
-
 ##############START################
 print()
-doit(10000, 1000)
+doit(1000, 100)
 

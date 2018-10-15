@@ -31,20 +31,6 @@ class Card:
         else:
             self.value = int(name)
 
-    # GETTERS & SETTERS
-
-    def set_isDrawn(self, value):
-        self.isDrawn = value
-
-    def get_name(self):
-        return self.name
-
-    def get_value(self):
-        return self.value
-
-    def get_suit(self):
-        return self.suit
-
     # String representation of a Card
     def __str__(self):
         cardStr = ("%s of %s" % (self.name, self.suit))
@@ -125,9 +111,6 @@ class Deck:
     def shuffle_deck(self):
         return random.shuffle(self.deck)
 
-    # GETTERS & SETTERS
-    def get_deck(self):
-        return self.deck
 
 ''' FUNCTIONS '''
 
@@ -173,13 +156,13 @@ def win_holds(deck, num_playercards, player_total, dealer_total, curindex):
         # Dealer's Current hand is unacceptable - must draw another card
         else:
             # Dealer draws a card
-            dealer_drawNewCard = deck.get_deck()[index]
+            dealer_drawNewCard = deck.deck[index]
 
             if (PRTDETAIL): print(" %s, " % dealer_drawNewCard, end="")
 
             index += 1 # Increment index
             # Add to dealer total
-            dealer_total += dealer_drawNewCard.get_value()
+            dealer_total += dealer_drawNewCard.value
 
 # If we decide to draw -> 1 denotes a win; 0 denotes a loss
 def win_draws(deck, num_playercards, player_total, dealer_total, curindex):
@@ -190,9 +173,9 @@ def win_draws(deck, num_playercards, player_total, dealer_total, curindex):
     index = curindex
 
     # Player draws a card
-    player_drawNewCard = deck.get_deck()[index]
+    player_drawNewCard = deck.deck[index]
     # Add to player total
-    player_total += player_drawNewCard.get_value()
+    player_total += player_drawNewCard.value
     num_playercards += 1  # Increment player's cards
 
     # Five Card Charlie
@@ -243,26 +226,18 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times, i):
         global PRTDETAIL
         PRTDETAIL = 0
 
-   # if((PRT_ or PRTDETAIL_) and (i > 10)):
-    #    PRT = 0
-     #   PRTDETAIL = 0
-
-
-        #PRT = 0
-        #PRTDETAIL = 0
-
 
     hold_wins = 0 # Num of holds resulting in a win
     draw_wins = 0 # Num of draws resulting in a win
     num_playercards = 2 # HARD CODED FOR NOW, could be 3, 4, ... in the future
 
     # Dealer draws 2nd card which the player can't see
-    dealerC2 = deck.get_deck().pop(0) # 48 cards left in the deck
+    dealerC2 = deck.deck.pop(0) # 48 cards left in the deck
 
     # Add up the player's card total
-    player_total = playerC1.get_value() + playerC2.get_value()
+    player_total = playerC1.value + playerC2.value
     # Add up the dealer's card total
-    dealer_total = dealerC1.get_value() + dealerC2.get_value()
+    dealer_total = dealerC1.value + dealerC2.value
 
     if(PRT or PRTDETAIL):
         print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
