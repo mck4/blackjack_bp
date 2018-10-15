@@ -18,20 +18,26 @@ from print import print_initial_state
 def doit(epochs, showFrequency):
 
     # Create backProp
-    backprop = backProp(2, 5, 2, 0.1)
+    backprop1 = backProp(2, 10, 2, 0.1)
     desired_output = None
 
 
     # Print initial state of backProp
-    print_initial_state(backprop)
+    print_initial_state(backprop1)
     print() # Adds a blank line
 
     ########## WILL NEED TO BE PUT INTO A FOR LOOP IN THE NEAR FUTURE
     for i in range(1,epochs + 1):
-        player_cards = [] # list of Player cards
-        player_total = None
-        dealer_cards = [] # list of Dealer cards
-        dealer_total = None
+        player_cards = []    # list of Player cards
+        player_total = None  # player total value
+        dealer_cards = []    # list of Dealer cards
+        dealer_total = None  # dealer total value
+
+        guess = None         # a guess
+        confidence = None    # confidence in guess
+        pct = None           # ???
+        num_right = 0        # Number of guesses right
+        num_wrong = 0        # Number of guesses wrong
 
         answers = [] # 0 for Draw, 1 for Hold; MAY DELETE
         inputs = [] # Two inputs: Player's total, Dealer's total
@@ -74,6 +80,7 @@ def doit(epochs, showFrequency):
         line = "draw" if (desired_output == 0) else "hold"
 
         # Comes after runSimulation because we use the desired_output to calculate other stuff
+        # Print first 10 epochs & then every value of showFrequency thereafter
         if(i <= 10 or ((i % showFrequency) == 0)):
             print("%d.  (%s %s - % s) -> %s with conf=[num] desired=%s right=[num]" %
                   (i , playerC1.get_name(), playerC2.get_name(), dealerC1.get_name(), line, line))

@@ -1,11 +1,7 @@
 # Usual python imports
 import random
 
-# Returns a random weight to five decimals places
-def randWeight():
-    random_weight = round(random.uniform(-1.0, 1.0), 5)
-    return random_weight
-
+''' CLASSES '''
 # backProp class
 class backProp:
     num_inputs = None   # Num of Inputs
@@ -47,6 +43,8 @@ class backProp:
         for i in range(self.num_outputs):
             self.biasTop.append(randWeight())
 
+    # GETTERS & SETTERS
+
     def get_num_inputs(self):
         return self.num_inputs
 
@@ -76,3 +74,23 @@ class backProp:
 
     def get_output(self):
         return self.output
+
+''' FUNCTIONS '''
+
+# Returns a random weight to five decimals places
+def randWeight():
+    random_weight = round(random.uniform(-1.0, 1.0), 5)
+    return random_weight
+
+def predictBP(backprop, inputs, confidence):
+
+    inputs = backprop.get_num_inputs()
+    hiddens = backprop.get_num_hiddens()
+    outputs = backprop.get_num_outputs()
+
+    # Calculate hidden values
+    for k in range(0, hiddens):
+        pass
+
+def adjustWeights():
+    pass
