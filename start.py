@@ -28,7 +28,7 @@ def doit(epochs, showFrequency):
     print() # Adds a blank line
 
     ########## WILL NEED TO BE PUT INTO A FOR LOOP IN THE NEAR FUTURE
-    for i in range(1,epochs + 1):
+    for i in range(1, epochs + 1):
         player_cards = []    # list of Player cards
         player_total = None  # player total value
         dealer_cards = []    # list of Dealer cards
@@ -57,9 +57,9 @@ def doit(epochs, showFrequency):
         player_cards.append(playerC2)
         # Adding up the total points for the player
         player_total = playerC1.value + playerC2.value
-        # Converting the total (2 to 20) to a value between 0 to 1; Rounding to 5 decimal places
+        # Converting the total (2 to 20) to a value between 0 to 1
         '''NOTE: changed from (2 to 21) to (2 to 20) since 21 is not a possible player total; ace is only a 1 here'''
-        inputs.append(round( (player_total - 1)/19.0 , 5))
+        inputs.append((player_total - 1)/19.0)
 
 
         # Dealer draws 1 card
@@ -68,8 +68,8 @@ def doit(epochs, showFrequency):
         dealer_cards.append(dealerC1)
         # Adding up the total points for the dealer
         dealer_total = dealerC1.value
-        # Converting the total (1 to 10) to a value between 0 to 1; Rounding to 5 decimal places
-        inputs.append(round( (dealer_total - 1)/9.0 , 5))
+        # Converting the total (1 to 10) to a value between 0 to 1
+        inputs.append((dealer_total - 1)/9.0)
 
 
 
@@ -77,16 +77,17 @@ def doit(epochs, showFrequency):
         ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
         desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10, i) # Returns 0 - draw or 1 - hold
 
-        predictBP(backprop1, inputs, confidence)
+        (guess, confidence) = predictBP(backprop1, inputs)
 
         # For printing; did we hold or draw?
-        line = "draw" if (desired_output == 0) else "hold"
+        desired_line = "draw" if (desired_output == 0) else "hold"
+        guess_line = "draw" if (guess == 0) else "hold"
 
         # Comes after runSimulation because we use the desired_output to calculate other stuff
         # Print first 10 epochs & then every value of showFrequency thereafter
         if(i <= 10 or ((i % showFrequency) == 0)):
-            print("%d.  (%s %s - % s) -> %s with conf=[num] desired=%s right=[num]" %
-                  (i , playerC1.name, playerC2.name, dealerC1.name, line, line))
+            print("%d.  (%s %s - % s) -> %s with conf=%.5f desired=%s right=[num]" %
+                  (i , playerC1.name, playerC2.name, dealerC1.name, guess_line, confidence, desired_line))
 
         # Debug
         #print("DEBUG INFO")

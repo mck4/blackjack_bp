@@ -1,5 +1,6 @@
 # Usual python imports
 import random
+import math
 
 ''' CLASSES '''
 # backProp class
@@ -22,79 +23,36 @@ class backProp:
         self.eta = eta
 
         # Select random weights for weightBottoms
-        for i in range(self.num_inputs):
+        for i in range(0, self.num_inputs):
             column = []
             for j in range(self.num_hiddens):
                 column.append(randWeight())
             self.weightBottom.append(column)
 
         # Select random weights for weightTops
-        for i in range(self.num_hiddens):
+        for i in range(0, self.num_hiddens):
             column = []
             for j in range(self.num_outputs):
                 column.append(randWeight())
             self.weightTop.append(column)
 
         # Select random weights for biasBottom
-        for i in range(self.num_hiddens):
+        for i in range(0, self.num_hiddens):
             self.biasBottom.append(randWeight())
 
         # Select random weights for biasTop
-        for i in range(self.num_outputs):
+        for i in range(0, self.num_outputs):
             self.biasTop.append(randWeight())
 
-    # GETTERS & SETTERS
+        # Fill hidden with zeros
+        for i in range(0, self.num_hiddens):
+            self.hidden.append(0)
 
-    '''
-    def get_num_inputs(self):
-        return self.num_inputs
+        # Fill output with zeros
+        for i in range(0, self.num_outputs):
+            self.output.append(0)
 
-    def get_num_hiddens(self):
-        return self.num_hiddens
 
-    def get_num_outputs(self):
-        return self.num_outputs
-
-    def get_eta(self):
-        return self.eta
-
-    
-    def get_weightBottom(self):
-        return self.weightBottom
-
-    def get_weightTop(self):
-        return self.weightTop
-
-    def get_biasBottom(self):
-        return self.biasBottom
-
-    def get_biasTop(self):
-        return self.biasTop
-
-    def get_hidden(self):
-        return self.hidden
-
-    def get_output(self):
-        return self.output
-
-    def set_hidden(self, value):
-        self.hidden = value
-
-    def set_output(self, value):
-        self.output = value
-
-    def set_weightBottom(self, value):
-        self.weightBottom = value
-
-    def set_weightTop(self, value):
-        self.weightTop = value
-
-    def set_biasBottom(self, value):
-        self.biasBottom = value
-
-    def set_biasTop(self, value):
-        self.biasTop = value
-    '''
 ''' FUNCTIONS '''
 
 # Returns a random weight to five decimals places
@@ -102,14 +60,41 @@ def randWeight():
     random_weight = round(random.uniform(-1.0, 1.0), 5)
     return random_weight
 
-def predictBP(backprop, sample, confidence):
+def predictBP(bp, sample):
 
     # Calculate hidden values
-    for k in range(0, backprop.num_hiddens):
+    for k in range(0, bp.num_hiddens):
         sum = 0.0
-        for i in range(0, backprop.num_inputs):
-            sum += backprop.weightBottom[i][k] * sample[i]
-        sum += backprop.biasBottom[k]
+        for i in range(0, bp.num_inputs):
+            sum += bp.weightBottom[i][k] * sample[i]
+        sum += bp.biasBottom[k]
+        bp.hidden[k] = (1.0 / (1.0 + math.exp(-sum))) # Sigmoid
+
+
+    # Calculate output values
+    for k in range(0, bp.num_outputs):
+        sum = 0.0
+        for i in range(0, bp.num_hiddens):
+            sum += bp.weightTop[i][k] * bp.hidden[i]
+        sum += bp.biasTop[k]
+        bp.output[k] = 1.0 / (1.0 + math.exp(-sum)) # Sigmoid
+
+    i = 0
+    # Find highest output activation (output = i)
+    for k in range(0, bp.num_outputs):
+        if(bp.output[k] > bp.output[i]):
+            i = k
+
+    # Find second largest number
+    nextMaxSum = -1.0
+    for k in range(0, bp.num_outputs):
+        if (k != i):
+            if(nextMaxSum < 0.0 or bp.output[k] > nextMaxSum):
+                nextMaxSum = bp.output[k]
+
+    confidence = bp.output[i] - nextMaxSum
+
+    return (i, confidence)
 
 def adjustWeights():
     pass
