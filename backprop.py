@@ -45,19 +45,17 @@ class backProp:
             self.biasTop.append(randWeight())
 
         # Fill hidden with zeros
-        for i in range(0, self.num_hiddens):
-            self.hidden.append(0)
+        self.hidden = [0] * self.num_hiddens
 
         # Fill output with zeros
-        for i in range(0, self.num_outputs):
-            self.output.append(0)
+        self.output = [0] * self.num_outputs
 
 
 ''' FUNCTIONS '''
 
 # Returns a random weight to five decimals places
 def randWeight():
-    random_weight = round(random.uniform(-1.0, 1.0), 5)
+    random_weight = random.uniform(-1.0, 1.0)
     return random_weight
 
 def predictBP(bp, sample):
@@ -96,5 +94,31 @@ def predictBP(bp, sample):
 
     return (i, confidence)
 
-def adjustWeights():
-    pass
+def adjustWeights(bp, sample, actual):
+    sum = None
+    # Fill delta with zeros
+    delta = [0] * bp.num_outputs
+
+    for k in range(0, bp.num_outputs):
+        sum = 1 if (k == actual) else 0 # 1 if correct, otherwise 0
+        sum -= bp.output[k]             # predicted
+
+        # Derivative of sigmoid
+        delta[k] = sum * bp.output[k] * (1 - bp.output[k])
+
+        # Update weights from hiddens to outputs
+        for i in range(0, bp.num_hiddens):
+            bp.weightTop[i][k] += bp.eta * delta[k] * bp.hidden[i]
+
+        # Update bias from hiddens to outputs
+        bp.biasTop[k] += bp.eta * delta[k]
+
+        for j in range(0, bp.num_hiddens):
+            d = 0.0
+            for k in range(0, bp.num_outputs):
+                d += bp.weightTop[j][k] * delta[k]
+
+            for i in range(0, bp.num_inputs):
+                bp.weightBottom[i][j] += bp.eta * bp.hidden[j] * (1 - bp.hidden[j]) * d * sample[i]
+
+            bp.biasBottom[j] += bp.eta * d

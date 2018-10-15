@@ -7,6 +7,7 @@ from blackjack import runSimulation
 from blackjack import Deck
 from backprop import backProp # Imports the Class backProp so we can create an instance
 from backprop import predictBP
+from backprop import adjustWeights
 from print import print_initial_state
 
 
@@ -19,8 +20,10 @@ from print import print_initial_state
 def doit(epochs, showFrequency):
 
     # Create backProp
-    backprop1 = backProp(2, 5, 2, 0.1)
+    backprop1 = backProp(2, 10, 2, 0.01)
     desired_output = None
+    num_right = 0  # Number of guesses right
+    num_wrong = 0  # Number of guesses wrong
 
 
     # Print initial state of backProp
@@ -36,9 +39,8 @@ def doit(epochs, showFrequency):
 
         guess = None         # a guess
         confidence = None    # confidence in guess
-        pct = None           # ???
-        num_right = 0        # Number of guesses right
-        num_wrong = 0        # Number of guesses wrong
+        percent = None           # ???
+
 
         answers = [] # 0 for Draw, 1 for Hold; MAY DELETE
         inputs = [] # Two inputs: Player's total, Dealer's total
@@ -77,7 +79,14 @@ def doit(epochs, showFrequency):
         ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
         desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10, i) # Returns 0 - draw or 1 - hold
 
+        # Get a guess and the confidence
         (guess, confidence) = predictBP(backprop1, inputs)
+
+        # Update right/wrong counter
+        if guess == desired_output:
+            num_right += 1
+        else:
+            num_wrong += 1
 
         # For printing; did we hold or draw?
         desired_line = "draw" if (desired_output == 0) else "hold"
@@ -86,8 +95,11 @@ def doit(epochs, showFrequency):
         # Comes after runSimulation because we use the desired_output to calculate other stuff
         # Print first 10 epochs & then every value of showFrequency thereafter
         if(i <= 10 or ((i % showFrequency) == 0)):
-            print("%d.  (%s %s - % s) -> %s with conf=%.5f desired=%s right=[num]" %
-                  (i , playerC1.name, playerC2.name, dealerC1.name, guess_line, confidence, desired_line))
+            percent = (100.0 * num_right) / (num_right + num_wrong)
+            print("%d.  (%s %s - % s) -> %s with conf=%.5f desired=%s right=%.2f%s" %
+                  (i , playerC1.name, playerC2.name, dealerC1.name, guess_line, confidence, desired_line, percent, "%"))
+
+        adjustWeights(backprop1, inputs, desired_output)
 
         # Debug
         #print("DEBUG INFO")
@@ -104,5 +116,5 @@ def doit(epochs, showFrequency):
 
 ##############START################
 print()
-doit(1000, 100)
+doit(1000000, 10000)
 
