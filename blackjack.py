@@ -265,7 +265,7 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times, i):
     # Do we draw or do we hold?
     if(draw_wins > hold_wins): return 0 # Draw
     else: return 1                      # Hold
-'''
+
 def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
 
     if( i == 11 ):
@@ -277,13 +277,13 @@ def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
 
     hold_wins = 0 # Num of holds resulting in a win
     draw_wins = 0 # Num of draws resulting in a win
-    num_playercards = 3 # HARD CODED FOR NOW, could be 3, 4, ... in the future
+    num_playercards = 3
 
     # Dealer draws 2nd card which the player can't see
     dealerC2 = deck.deck.pop(0) # 48 cards left in the deck
 
     # Add up the player's card total
-    player_total = playerC1.value + playerC2.value
+    player_total = playerC1.value + playerC2.value + playerC3.value
     # Add up the dealer's card total
     dealer_total = dealerC1.value + dealerC2.value
 
@@ -313,4 +313,3 @@ def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
     # Do we draw or do we hold?
     if(draw_wins > hold_wins): return 0 # Draw
     else: return 1                      # Hold
-'''

@@ -68,7 +68,6 @@ def predictBP(bp, sample):
         sum += bp.biasBottom[k]
         bp.hidden[k] = (1.0 / (1.0 + math.exp(-sum))) # Sigmoid
 
-
     # Calculate output values
     for k in range(0, bp.num_outputs):
         sum = 0.0
