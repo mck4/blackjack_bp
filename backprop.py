@@ -113,12 +113,12 @@ def adjustWeights(bp, sample, actual):
         # Update bias from hiddens to outputs
         bp.biasTop[k] += bp.eta * delta[k]
 
-        for j in range(0, bp.num_hiddens):
-            d = 0.0
-            for k in range(0, bp.num_outputs):
-                d += bp.weightTop[j][k] * delta[k]
+    for j in range(0, bp.num_hiddens):
+        d = 0.0
+        for k in range(0, bp.num_outputs):
+            d += bp.weightTop[j][k] * delta[k]
 
-            for i in range(0, bp.num_inputs):
-                bp.weightBottom[i][j] += bp.eta * bp.hidden[j] * (1 - bp.hidden[j]) * d * sample[i]
+        for i in range(0, bp.num_inputs):
+            bp.weightBottom[i][j] += bp.eta * bp.hidden[j] * (1 - bp.hidden[j]) * d * sample[i]
 
-            bp.biasBottom[j] += bp.eta * d
+        bp.biasBottom[j] += bp.eta * d

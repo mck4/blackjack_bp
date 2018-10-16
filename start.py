@@ -20,7 +20,7 @@ from print import print_initial_state
 def doit(epochs, showFrequency):
 
     # Create backProp
-    backprop1 = backProp(2, 10, 2, 0.01)
+    backprop1 = backProp(2, 7, 2, 0.01)
     desired_output = None
     num_right = 0  # Number of guesses right
     num_wrong = 0  # Number of guesses wrong
@@ -61,7 +61,7 @@ def doit(epochs, showFrequency):
         player_total = playerC1.value + playerC2.value
         # Converting the total (2 to 20) to a value between 0 to 1
         '''NOTE: changed from (2 to 21) to (2 to 20) since 21 is not a possible player total; ace is only a 1 here'''
-        inputs.append((player_total - 1)/19.0)
+        inputs.append((player_total - 2)/18.0)
 
 
         # Dealer draws 1 card
@@ -77,7 +77,7 @@ def doit(epochs, showFrequency):
 
         # P's 1st card; P's 2nd card; D's 1st card; # of times
         ''' Will probably pass the player and dealer lists instead of the individual cards maybe... '''
-        desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 10, i) # Returns 0 - draw or 1 - hold
+        desired_output = runSimulation(deck, playerC1, playerC2, dealerC1, 50, i) # Returns 0 - draw or 1 - hold
 
         # Get a guess and the confidence
         (guess, confidence) = predictBP(backprop1, inputs)
@@ -116,5 +116,5 @@ def doit(epochs, showFrequency):
 
 ##############START################
 print()
-doit(1000000, 10000)
+doit(100000, 1000)
 

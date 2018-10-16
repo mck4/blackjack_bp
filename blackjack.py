@@ -265,3 +265,51 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times, i):
     # Do we draw or do we hold?
     if(draw_wins > hold_wins): return 0 # Draw
     else: return 1                      # Hold
+
+def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
+
+    if( i == 11 ):
+        global PRT
+        PRT = 0
+        global PRTDETAIL
+        PRTDETAIL = 0
+
+
+    hold_wins = 0 # Num of holds resulting in a win
+    draw_wins = 0 # Num of draws resulting in a win
+    num_playercards = 3 # HARD CODED FOR NOW, could be 3, 4, ... in the future
+
+    # Dealer draws 2nd card which the player can't see
+    dealerC2 = deck.deck.pop(0) # 48 cards left in the deck
+
+    # Add up the player's card total
+    player_total = playerC1.value + playerC2.value
+    # Add up the dealer's card total
+    dealer_total = dealerC1.value + dealerC2.value
+
+    if(PRT or PRTDETAIL):
+        print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
+              (player_total, playerC1, playerC2, dealer_total, dealerC1, dealerC2), end="")
+
+    # Run this the given amount of times
+    for i in range(0, times):
+        #print("%d) " % (i + 1))
+
+        # Shuffle deck
+        deck.shuffle_deck()
+
+        # Does holding result in a win?
+        if(win_holds(deck, num_playercards, player_total, dealer_total, 0)):
+            hold_wins += 1
+
+        # Does drawing result in a win?
+        if(win_draws(deck, num_playercards, player_total, dealer_total, 0)):
+            draw_wins += 1
+
+
+    if (PRT or PRTDETAIL):
+        print("\nDraw wins: %d, Hold wins: %d" % (draw_wins, hold_wins))
+
+    # Do we draw or do we hold?
+    if(draw_wins > hold_wins): return 0 # Draw
+    else: return 1                      # Hold

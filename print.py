@@ -35,5 +35,21 @@ def print_initial_state(backprop):
     print("")
 
 # Print prediction
-def print_prediction():
+def print_prediction(backprop, sample):
+    for k in range(0, backprop.num_hiddens):
+        print("Hidden [%d] = sigmoid (" % k, end="")
+        for i in range(0, backprop.num_inputs):
+            if i > 0: print("+", end="")
+            print("%3.1f * %6.3f" % (sample[i], backprop.weightBottom[i][k]), end="")
+        print(" + %6.3f" %backprop.biasBottom[k], end = "")
+        print(") = %6.3f" %backprop.hidden[k])
+    print()
+
+    for k in range (0, backprop.num_outputs):
+        print("Output[%d] = sigmoid(" %k, end="")
+        for i in range (0, backprop.num_hiddens):
+            if i>0 : print("+" , end="")
+            print("%6.3f * %6.3f" %(backprop.hidden[i], backprop.weightTop[i][k]), end="")
+        print("+ %6.3f" %backprop.biasTop[k], end="")
+        print(") = %6.3f" %backprop.output[k])
     pass
