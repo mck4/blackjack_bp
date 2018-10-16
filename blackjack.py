@@ -265,7 +265,7 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times, i):
     # Do we draw or do we hold?
     if(draw_wins > hold_wins): return 0 # Draw
     else: return 1                      # Hold
-
+'''
 def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
 
     if( i == 11 ):
@@ -313,3 +313,4 @@ def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
     # Do we draw or do we hold?
     if(draw_wins > hold_wins): return 0 # Draw
     else: return 1                      # Hold
+'''
