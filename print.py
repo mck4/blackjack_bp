@@ -1,3 +1,8 @@
+'''
+print.py
+
+prints details about the backprop
+'''
 
 # Print the initial state of the network
 def print_initial_state(backprop):

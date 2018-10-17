@@ -1,3 +1,10 @@
+'''
+backprop.py
+
+the backprop is here
+'''
+
+
 # Usual python imports
 import random
 import math

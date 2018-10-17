@@ -1,3 +1,10 @@
+'''
+Blackjack.py
+
+This is where the Blackjack Simulator is. It helps provide the desired output.
+The functions runSimulation
+'''
+
 # Usual python imports
 import random
 
@@ -111,7 +118,6 @@ class Deck:
     def shuffle_deck(self):
         return random.shuffle(self.deck)
 
-
 ''' FUNCTIONS '''
 
 # If we decide to hold -> 1 denotes a win; 0 denotes a loss
@@ -121,17 +127,6 @@ def win_holds(deck, num_playercards, player_total, dealer_total, curindex):
     # draw from the top and advance to the next card in the deck
     # Keep track of index
     index = curindex
-
-
-    # Five Card Charlie
-    #if (num_playercards >= 5):
-    #    # Player wins if the five cards are less than 20
-    #    if (player_total <= 21):
-    #        # player wins
-    #        if (PRTDETAIL): print(" P(%d), D(%d) -> P: Wins" % (player_total, dealer_total), end="")
-    #        if (PRT): print(" P wins; 5 card charlie")
-    #        return 1
-
 
     while(1):
         if((PRTDETAIL or PRT) and index == 0): print("\n  HOLD -> ", end="")
@@ -217,15 +212,15 @@ def win_draws(deck, num_playercards, player_total, dealer_total, curindex):
 
 ''' RUN SIMULATION '''
 
-# This simulation will conclude what the desired output is
-def runSimulation(deck, playerC1, playerC2, dealerC1, times, i):
+# Simulation for when the player has two cards which concludes what the desired output is
+def runSimulation1(deck, playerC1, playerC2, dealerC1, times, i):
 
+    # Ensures detailed print stops printing after 10 iterations
     if( i == 11 ):
         global PRT
         PRT = 0
         global PRTDETAIL
         PRTDETAIL = 0
-
 
     hold_wins = 0 # Num of holds resulting in a win
     draw_wins = 0 # Num of draws resulting in a win
@@ -239,14 +234,13 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times, i):
     # Add up the dealer's card total
     dealer_total = dealerC1.value + dealerC2.value
 
+    # Detail print
     if(PRT or PRTDETAIL):
         print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
               (player_total, playerC1, playerC2, dealer_total, dealerC1, dealerC2), end="")
 
     # Run this the given amount of times
     for i in range(0, times):
-        #print("%d) " % (i + 1))
-
         # Shuffle deck
         deck.shuffle_deck()
 
@@ -258,7 +252,7 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times, i):
         if(win_draws(deck, num_playercards, player_total, dealer_total, 0)):
             draw_wins += 1
 
-
+    # print details
     if (PRT or PRTDETAIL):
         print("\nDraw wins: %d, Hold wins: %d" % (draw_wins, hold_wins))
 
@@ -266,14 +260,8 @@ def runSimulation(deck, playerC1, playerC2, dealerC1, times, i):
     if(draw_wins > hold_wins): return 0 # Draw
     else: return 1                      # Hold
 
+# Simulation for a player's hand with three cards which concludes what the desired output is
 def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
-
-    if( i == 11 ):
-        global PRT
-        PRT = 0
-        global PRTDETAIL
-        PRTDETAIL = 0
-
 
     hold_wins = 0 # Num of holds resulting in a win
     draw_wins = 0 # Num of draws resulting in a win
@@ -287,15 +275,14 @@ def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
     # Add up the dealer's card total
     dealer_total = dealerC1.value + dealerC2.value
 
+    # Print detail
     if(PRT or PRTDETAIL):
         print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
               (player_total, playerC1, playerC2, dealer_total, dealerC1, dealerC2), end="")
 
     # Run this the given amount of times
     for i in range(0, times):
-        #print("%d) " % (i + 1))
-
-        # Shuffle deck
+          # Shuffle deck
         deck.shuffle_deck()
 
         # Does holding result in a win?
@@ -306,7 +293,7 @@ def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
         if(win_draws(deck, num_playercards, player_total, dealer_total, 0)):
             draw_wins += 1
 
-
+    # print details
     if (PRT or PRTDETAIL):
         print("\nDraw wins: %d, Hold wins: %d" % (draw_wins, hold_wins))
 
