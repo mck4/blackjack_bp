@@ -23,8 +23,8 @@ from print import print_prediction
 # Function which starts the whole program
 def doit(epochs, showFrequency):
     # Create backProp
-    backprop1 = backProp(2, 5, 2, 0.01)
-    backprop2 = backProp(2, 5, 2, 0.01)
+    backprop1 = backProp(2, 4, 2, 0.05)
+    backprop2 = backProp(2, 10, 2, 0.07)
 
     # BP1
     num_right = 0  # Number of guesses right
@@ -34,7 +34,7 @@ def doit(epochs, showFrequency):
     num_wrong2 = 0 # Number of guesses right
     num_right2 = 0 # Number of guesses wrong
 
-        # PRINT INITIAL STATE
+    # PRINT INITIAL STATE
     print("\n______________________INITIAL STATE OF NETWORK________________________")
     print("INITIAL STATE FOR 2 CARDS\n")
     # Print initial state of backProp
@@ -112,6 +112,7 @@ def doit(epochs, showFrequency):
             print("%d.  (%s %s - % s) -> %s with conf=%.5f desired=%s right=%.2f%s\t BP1" %
                   (i , playerC1.name, playerC2.name, dealerC1.name, guess_line, confidence, desired_line, percent, "%"))
 
+            # This prints the results of predictBP if epochs is <=5 or the last one
             '''
             if(i <= 5 or (i == epochs)):
                 print()
@@ -170,6 +171,8 @@ def doit(epochs, showFrequency):
                     print("%d.  (%s %s %s - % s) -> %s with conf=%.5f desired=%s right=%.2f%s\t BP2\n" %
                           (i, playerC1.name, playerC2.name, playerC3.name, dealerC1.name, guess_line, confidence, desired_line, percent2,
                            "%"))
+
+                    # This prints the results of predictBP if epochs is <=5 or the last one
                     '''
                     if (i <= 5 or (i == epochs)):
                         print()
@@ -198,5 +201,5 @@ def doit(epochs, showFrequency):
 ##############START################
 
 print()
-doit(100000, 1000) # Start!
+doit(100000, 5000) # Start!
 
