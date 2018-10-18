@@ -29,7 +29,6 @@ def print_initial_state(backprop):
         print("%8.5f " % (backprop.biasBottom[i]), end="")
         if ((i+1) % 5) == 0: print()
     print()
-    print()
 
     # Show all the output biases
     print("Bias for the outputs: ")

@@ -16,14 +16,15 @@ class backProp:
     num_hiddens = None  # Num of Hiddens
     num_outputs = None  # Num of Outputs
     eta = None
-    weightBottom = []
-    weightTop = []
-    biasBottom = []
-    biasTop = []
-    hidden = []
-    output = []
 
     def __init__(self, inputs, hiddens, outputs, eta):
+        self.weightBottom = []
+        self.weightTop = []
+        self.biasBottom = []
+        self.biasTop = []
+        self.hidden = []
+        self.output = []
+
         self.num_inputs = inputs
         self.num_hiddens = hiddens
         self.num_outputs = outputs
@@ -60,11 +61,12 @@ class backProp:
 
 ''' FUNCTIONS '''
 
-# Returns a random weight to five decimals places
+# Returns a random weight between -1 and 1
 def randWeight():
     random_weight = random.uniform(-1.0, 1.0)
     return random_weight
 
+# Returns a prediction
 def predictBP(bp, sample):
 
     # Calculate hidden values
@@ -72,7 +74,7 @@ def predictBP(bp, sample):
         sum = 0.0
         for i in range(0, bp.num_inputs):
             sum += bp.weightBottom[i][k] * sample[i]
-        sum += bp.biasBottom[k]
+        sum += bp.biasBottom[k] # Add the bias
         bp.hidden[k] = (1.0 / (1.0 + math.exp(-sum))) # Sigmoid
 
     # Calculate output values
@@ -80,7 +82,7 @@ def predictBP(bp, sample):
         sum = 0.0
         for i in range(0, bp.num_hiddens):
             sum += bp.weightTop[i][k] * bp.hidden[i]
-        sum += bp.biasTop[k]
+        sum += bp.biasTop[k] # Add the bias
         bp.output[k] = 1.0 / (1.0 + math.exp(-sum)) # Sigmoid
 
     i = 0

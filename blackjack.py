@@ -18,7 +18,6 @@ class Card:
     name = None     # Name of the card:  Could be '1', 'ace', 'queen', etc
     value = None    # Value of the card: The integer value of a card
     suit = None     # Suit of a card: Not particularly useful but makes the simulation more real?
-    isDrawn = False # False if card still in deck; True if drawn
 
     # To create a card, a suit and a name must be provided; the value is taken from the name
     def __init__(self, suit, name):
@@ -277,8 +276,8 @@ def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
 
     # Print detail
     if(PRT or PRTDETAIL):
-        print("P(%d): %s, %s vs. D(%d): %s, [%s] " %
-              (player_total, playerC1, playerC2, dealer_total, dealerC1, dealerC2), end="")
+        print("P(%d): %s, %s, %s vs. D(%d): %s, [%s] " %
+              (player_total, playerC1, playerC2, playerC3, dealer_total, dealerC1, dealerC2), end="")
 
     # Run this the given amount of times
     for i in range(0, times):
@@ -300,3 +299,4 @@ def runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, times, i):
     # Do we draw or do we hold?
     if(draw_wins > hold_wins): return 0 # Draw
     else: return 1                      # Hold
+

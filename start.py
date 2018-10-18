@@ -22,10 +22,9 @@ from print import print_prediction
 
 # Function which starts the whole program
 def doit(epochs, showFrequency):
-
     # Create backProp
-    backprop1 = backProp(2, 7, 2, 0.01)
-    backprop2 = backProp(2, 7, 2, 0.01)
+    backprop1 = backProp(2, 5, 2, 0.01)
+    backprop2 = backProp(2, 5, 2, 0.01)
 
     # BP1
     num_right = 0  # Number of guesses right
@@ -35,7 +34,7 @@ def doit(epochs, showFrequency):
     num_wrong2 = 0 # Number of guesses right
     num_right2 = 0 # Number of guesses wrong
 
-    # PRINT INITIAL STATE
+        # PRINT INITIAL STATE
     print("\n______________________INITIAL STATE OF NETWORK________________________")
     print("INITIAL STATE FOR 2 CARDS\n")
     # Print initial state of backProp
@@ -54,7 +53,7 @@ def doit(epochs, showFrequency):
         dealer_cards = []    # list of Dealer cards
         dealer_total = None  # dealer total value
 
-        guess = None         # a guess
+        guess1 = None         # a guess
         confidence = None    # confidence in guess
         percent = None       # percentage right
 
@@ -86,29 +85,29 @@ def doit(epochs, showFrequency):
         # Adding up the total points for the dealer
         dealer_total = dealerC1.value
         # Converting the total (1 to 10) to a value between 0 to 1
-        inputs1.append((dealer_total - 1)/9.0)
+        inputs1.append((dealer_total - 1)/ 9.0)
 
 
         # P's 1st card; P's 2nd card; D's 1st card; # of times
         desired_output1 = runSimulation1(deck, playerC1, playerC2, dealerC1, 50, i) # Returns 0 - draw or 1 - hold
 
         # Get a guess and the confidence
-        (guess, confidence) = predictBP(backprop1, inputs1)
+        (guess1, confidence) = predictBP(backprop1, inputs1)
 
 
         # Update right/wrong counter
-        if guess == desired_output1:
+        if guess1 == desired_output1:
             num_right += 1
         else:
             num_wrong += 1
 
         # For printing; did we hold or draw?
         desired_line = "draw" if (desired_output1 == 0) else "hold"
-        guess_line = "draw" if (guess == 0) else "hold"
+        guess_line = "draw" if (guess1 == 0) else "hold"
 
         # Comes after runSimulation because we use the desired_output to calculate other stuff
         # Print first 10 epochs & then every value of showFrequency thereafter
-        if(i <= 10 or ((i % showFrequency) == 0)):
+        if(i <= 5 or ((i % showFrequency) == 0)):
             percent = (100.0 * num_right) / (num_right + num_wrong)
             print("%d.  (%s %s - % s) -> %s with conf=%.5f desired=%s right=%.2f%s\t BP1" %
                   (i , playerC1.name, playerC2.name, dealerC1.name, guess_line, confidence, desired_line, percent, "%"))
@@ -124,7 +123,7 @@ def doit(epochs, showFrequency):
         adjustWeights(backprop1, inputs1, desired_output1)
 
         # If the guess is to draw, invoke BP2
-        if guess is 0:
+        if guess1 is 0:
 
             # Two inputs: Player's total, Dealer's total
             inputs2 = [] # Special for BP2
@@ -135,48 +134,54 @@ def doit(epochs, showFrequency):
             player_cards.append(playerC3)
             # Adding up the total points for the player
             player_total = playerC1.value + playerC2.value + playerC3.value
-            # Converting the total (2 to 21) to a value between 0 to 1
-            inputs2.append((player_total - 2) / 19.0)
+
+            if(player_total < 21):
+
+                # Converting the total (2 to 21) to a value between 0 to 1
+                inputs2.append((player_total - 1) / 19.0)
 
 
-            # Converting the total (1 to 10) to a value between 0 to 1
-            inputs2.append((dealer_total - 1) / 9.0)
+                # Converting the total (1 to 10) to a value between 0 to 1
+                inputs2.append((dealer_total - 1) / 9.0)
 
 
-            # P's 1st card; P's 2nd card; D's 1st card; # of times
-            # Special for BP2
-            desired_output2 = runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, 50, i)  # Returns 0 - draw or 1 - hold
+                # P's 1st card; P's 2nd card; D's 1st card; # of times
+                # Special for BP2
+                desired_output2 = runSimulation2(deck, playerC1, playerC2, playerC3, dealerC1, 50, i)  # Returns 0 - draw or 1 - hold
 
-            # Get a guess and the confidence
-            (guess2, confidence) = predictBP(backprop2, inputs2)
+                # Get a guess and the confidence
+                (guess2, confidence) = predictBP(backprop2, inputs2)
+
+                # Update right/wrong counter for BP2
+                if guess2 == desired_output2:
+                    num_right2 += 1
+                else:
+                    num_wrong2 += 1
+
+                # For printing; did we hold or draw?
+                desired_line = "draw" if (desired_output2 == 0) else "hold"
+                guess_line = "draw" if (guess2 == 0) else "hold"
+
+                # Comes after runSimulation because we use the desired_output to calculate other stuff
+                # Print first 10 epochs & then every value of showFrequency thereafter
+                # Special for BP2, three cards displayed now
+                if (i <= 5 or ((i % showFrequency) == 0)):
+                    percent2 = (100.0 * num_right2) / (num_right2 + num_wrong2)
+                    print("%d.  (%s %s %s - % s) -> %s with conf=%.5f desired=%s right=%.2f%s\t BP2\n" %
+                          (i, playerC1.name, playerC2.name, playerC3.name, dealerC1.name, guess_line, confidence, desired_line, percent2,
+                           "%"))
+                    '''
+                    if (i <= 5 or (i == epochs)):
+                        print()
+                        print_prediction(backprop2, inputs2)
+                        print()
+                    '''
+
+                # Adjust the weights for BP1
+                adjustWeights(backprop2, inputs2, desired_output2)
 
 
-            # Update right/wrong counter for BP2
-            if guess2 == desired_output2:
-                num_right2 += 1
-            else:
-                num_wrong2 += 1
 
-            # For printing; did we hold or draw?
-            desired_line = "draw" if (desired_output2 == 0) else "hold"
-            guess_line = "draw" if (guess2 == 0) else "hold"
-
-            # Comes after runSimulation because we use the desired_output to calculate other stuff
-            # Print first 10 epochs & then every value of showFrequency thereafter
-            # Special for BP2, three cards displayed now
-            if (i <= 10 or ((i % showFrequency) == 0)):
-                percent2 = (100.0 * num_right2) / (num_right2 + num_wrong2)
-                print("%d.  (%s %s %s - % s) -> %s with conf=%.5f desired=%s right=%.2f%s\t BP2\n" %
-                      (i, playerC1.name, playerC2.name, playerC3.name, dealerC1.name, guess_line, confidence, desired_line, percent2,
-                       "%"))
-                '''
-                if (i <= 5 or (i == epochs)):
-                    print()
-                    print_prediction(backprop2, inputs2)
-                    print()
-                '''
-            # Adjust the weights for BP1
-            adjustWeights(backprop2, inputs2, desired_output2)
 
     # PRINT FINAL NETWORK #
     print("______________________FINAL STATE OF THE NETWORK________________________")
@@ -193,5 +198,5 @@ def doit(epochs, showFrequency):
 ##############START################
 
 print()
-doit(200000, 10000) # Start!
+doit(100000, 1000) # Start!
 
